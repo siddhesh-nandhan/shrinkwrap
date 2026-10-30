@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shrinkwrap: compress images, 3D models, audio and video</title>
-<meta name="description" content="Shrink PNG, JPEG, WebP, GLB 3D models, audio and video files in your browser. Your files are never uploaded, and it's free to use.">
+<title>Shrinkwrap: compress images, 3D models, audio, video and fonts</title>
+<meta name="description" content="Shrink PNG, JPEG, WebP, GLB 3D models, audio, video and font files in your browser. Your files are never uploaded, and it's free to use.">
 <meta name="theme-color" content="#f7f4ed" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#151514" media="(prefers-color-scheme: dark)">
-<meta property="og:title" content="Shrinkwrap: compress images, 3D models, audio and video">
-<meta property="og:description" content="Make files smaller without uploading them. Images, GLB 3D models, audio and video, all compressed on your device.">
+<meta property="og:title" content="Shrinkwrap: compress images, 3D models, audio, video and fonts">
+<meta property="og:description" content="Make files smaller without uploading them. Images, GLB 3D models, audio, video and fonts, all compressed on your device.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff8a3d'/%3E%3Cstop offset='.55' stop-color='%23ff4f8b'/%3E%3Cstop offset='1' stop-color='%236b7bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='%23fcfbf8'/%3E%3C/svg%3E">
 <script>try{var t=localStorage.getItem('pp-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shrinkwrap","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0"},"description":"Compress images, GLB 3D models, audio and video on your own device."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shrinkwrap","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0"},"description":"Compress images, GLB 3D models, audio, video and fonts on your own device."}</script>
 <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
@@ -40,6 +40,7 @@
       <button class="kind" role="tab" id="tab-glb" data-kind="glb" aria-selected="false" aria-controls="panel-glb" tabindex="-1" type="button">3D models</button>
       <button class="kind" role="tab" id="tab-audio" data-kind="audio" aria-selected="false" aria-controls="panel-audio" tabindex="-1" type="button">Audio</button>
       <button class="kind" role="tab" id="tab-video" data-kind="video" aria-selected="false" aria-controls="panel-video" tabindex="-1" type="button">Video</button>
+      <button class="kind" role="tab" id="tab-font" data-kind="font" aria-selected="false" aria-controls="panel-font" tabindex="-1" type="button">Fonts</button>
     </div>
 
     <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose files, drop them here, or paste with Command or Control V">
@@ -159,6 +160,27 @@
         </div>
       </details>
     </section>
+    <section class="kind-panel" id="panel-font" role="tabpanel" aria-labelledby="tab-font" data-kind="font" hidden>
+      <fieldset class="goals">
+        <legend>What do you need?</legend>
+        <label class="goal"><input type="radio" name="goal-font" value="web" checked><span><strong>Web font</strong><small>WOFF2, every glyph and feature kept</small></span></label>
+        <label class="goal"><input type="radio" name="goal-font" value="smallest"><span><strong>Smallest for the web</strong><small>WOFF2, Latin characters only, no hinting</small></span></label>
+        <label class="goal"><input type="radio" name="goal-font" value="everywhere"><span><strong>Older browsers</strong><small>WOFF, works back to IE 9</small></span></label>
+        <label class="goal"><input type="radio" name="goal-font" value="desktop"><span><strong>Install on a computer</strong><small>TTF / OTF, unpacked from web formats</small></span></label>
+      </fieldset>
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <div>
+          <div class="options">
+            <label>Format <select id="font-format"><option value="woff2" selected>WOFF2 · smallest</option><option value="woff">WOFF</option><option value="ttf">TTF / OTF · desktop</option><option value="eot">EOT · old Internet Explorer</option><option value="svg">SVG font · legacy</option><option value="same">Same as input</option></select></label>
+            <label>Characters <select id="font-subset"><option value="none" selected>Keep all</option><option value="latin">Latin (English, Western Europe)</option><option value="latin-ext">Latin extended (most European languages)</option><option value="custom">Only the characters I type</option></select></label>
+            <label id="font-text-label" hidden>Characters to keep <input id="font-text" type="text" placeholder="e.g. ABC abc 0123 .,!?" autocomplete="off"></label>
+            <label class="check"><input id="font-hinting" type="checkbox"> Remove hinting <span class="tip" title="Hinting sharpens small text on older Windows screens. Removing it saves space; macOS, iOS and Android ignore it anyway.">ⓘ</span></label>
+          </div>
+          <small class="hint">Reads TTF, OTF, WOFF, WOFF2, EOT and SVG fonts. Changing the format alone is lossless: every table, ligature and kerning pair is kept. Subsetting or removing hinting rebuilds the font, which keeps outlines and kerning but removes ligatures and other OpenType features. Check your font's licence allows conversion.</small>
+        </div>
+      </details>
+    </section>
     <div id="notice" role="status" aria-live="polite"></div>
 
     <section id="results" hidden>
@@ -195,6 +217,6 @@ document.getElementById('theme-toggle').addEventListener('click',function(){
   r.dataset.theme=next;try{localStorage.setItem('pp-theme',next)}catch(e){}
 });
 </script>
-<script type="module" src="app.js?v=7"></script>
+<script type="module" src="app.js?v=8"></script>
 </body>
 </html>
