@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shrinkwrap: compress images, 3D models and audio</title>
-<meta name="description" content="Shrink PNG, JPEG, WebP, GLB 3D models and audio files in your browser. Your files are never uploaded, and it's free to use.">
+<title>Shrinkwrap: compress images, 3D models, audio and video</title>
+<meta name="description" content="Shrink PNG, JPEG, WebP, GLB 3D models, audio and video files in your browser. Your files are never uploaded, and it's free to use.">
 <meta name="theme-color" content="#f7f4ed" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#151514" media="(prefers-color-scheme: dark)">
-<meta property="og:title" content="Shrinkwrap: compress images, 3D models and audio">
-<meta property="og:description" content="Make files smaller without uploading them. Images, GLB 3D models and audio, all compressed on your device.">
+<meta property="og:title" content="Shrinkwrap: compress images, 3D models, audio and video">
+<meta property="og:description" content="Make files smaller without uploading them. Images, GLB 3D models, audio and video, all compressed on your device.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff8a3d'/%3E%3Cstop offset='.55' stop-color='%23ff4f8b'/%3E%3Cstop offset='1' stop-color='%236b7bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='%23fcfbf8'/%3E%3C/svg%3E">
 <script>try{var t=localStorage.getItem('pp-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shrinkwrap","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0"},"description":"Compress images, GLB 3D models and audio on your own device."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Shrinkwrap","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0"},"description":"Compress images, GLB 3D models, audio and video on your own device."}</script>
 <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
@@ -39,6 +39,7 @@
       <button class="kind" role="tab" id="tab-image" data-kind="image" aria-selected="true" aria-controls="panel-image" type="button">Images</button>
       <button class="kind" role="tab" id="tab-glb" data-kind="glb" aria-selected="false" aria-controls="panel-glb" tabindex="-1" type="button">3D models</button>
       <button class="kind" role="tab" id="tab-audio" data-kind="audio" aria-selected="false" aria-controls="panel-audio" tabindex="-1" type="button">Audio</button>
+      <button class="kind" role="tab" id="tab-video" data-kind="video" aria-selected="false" aria-controls="panel-video" tabindex="-1" type="button">Video</button>
     </div>
 
     <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose files, drop them here, or paste with Command or Control V">
@@ -134,10 +135,34 @@
         </div>
       </details>
     </section>
+    <section class="kind-panel" id="panel-video" role="tabpanel" aria-labelledby="tab-video" data-kind="video" hidden>
+      <fieldset class="goals">
+        <legend>What do you need?</legend>
+        <label class="goal"><input type="radio" name="goal-video" value="everywhere" checked><span><strong>Works everywhere</strong><small>MP4 · H.264, plays on any device</small></span></label>
+        <label class="goal"><input type="radio" name="goal-video" value="smallest"><span><strong>Smallest file</strong><small>MP4 · H.264 at 720p, strongest compression</small></span></label>
+        <label class="goal"><input type="radio" name="goal-video" value="web"><span><strong>For websites</strong><small>WebM · VP8, plays in every modern browser</small></span></label>
+        <label class="goal"><input type="radio" name="goal-video" value="lossless"><span><strong>Lossless</strong><small>Same streams, no re-encode, metadata removed</small></span></label>
+      </fieldset>
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <div>
+          <div class="options">
+            <label>Mode <select id="video-mode"><option value="lossy">Lossy · smaller</option><option value="lossless">Lossless · no quality loss</option></select></label>
+            <label>Format <select id="video-container"><option value="same">Same as input</option><option value="mp4" selected>MP4</option><option value="mov">MOV</option><option value="mkv">MKV</option><option value="webm">WebM</option><option value="webp">Animated WebP</option></select></label>
+            <label>Codec <select id="video-codec"></select></label>
+            <label>Quality <select id="video-level"><option value="0">High</option><option value="1" selected>Balanced</option><option value="2">Small</option><option value="3">Smallest</option></select></label>
+            <label>Resolution <select id="video-size"><option value="0" selected>Original</option><option value="2160">Up to 2160p (4K)</option><option value="1440">Up to 1440p</option><option value="1080">Up to 1080p</option><option value="720">Up to 720p</option><option value="480">Up to 480p</option><option value="360">Up to 360p</option></select></label>
+            <label>Frame rate <select id="video-fps"><option value="0" selected>Original</option><option value="60">Up to 60 fps</option><option value="30">Up to 30 fps</option><option value="24">Up to 24 fps</option><option value="15">Up to 15 fps</option></select></label>
+            <label class="check"><input id="video-mute" type="checkbox"> Remove audio</label>
+          </div>
+          <small class="hint" id="video-hint">Reads MP4, MOV, MKV, WebM, AVI, WMV, FLV, MPEG, TS, 3GP, OGV and more. Video runs single-threaded in your browser, so a long clip can take several minutes. Lossless re-encoding of an already compressed video usually makes it larger; "Original streams" keeps the exact video and only repackages it. The first media file downloads a 30 MB engine, once.</small>
+        </div>
+      </details>
+    </section>
     <div id="notice" role="status" aria-live="polite"></div>
 
     <section id="results" hidden>
-      <div class="results-heading"><h2>Your images <span id="count"></span></h2><button id="clear" class="text-button" type="button">Clear finished</button></div>
+      <div class="results-heading"><h2>Your files <span id="count"></span></h2><button id="clear" class="text-button" type="button">Clear finished</button></div>
       <div id="list"></div>
       <div class="summary">
         <div><strong id="saved">0 B saved</strong><small id="total">Everything stays on this device.</small></div>
@@ -151,8 +176,8 @@
     <h2 id="how-title">What happens to your files</h2>
     <div class="cards">
       <article class="card"><span class="num">01</span><h3>They stay on your device.</h3><p>Compression runs in your browser, so nothing is uploaded. The site hosts everything it needs itself and loads no third-party scripts or trackers.</p></article>
-      <article class="card"><span class="num">02</span><h3>Lossless wherever possible.</h3><p>PNG recompression keeps every pixel, and lossless WebP results are decoded and compared with the original before you see them. Lossy options (JPEG, lossy WebP, MP3, AAC, Opus) are labelled as lossy.</p></article>
-      <article class="card"><span class="num">03</span><h3>Savings depend on the file.</h3><p>Screenshots, graphics, WAV audio and uncompressed 3D models shrink the most. Photos and MP3s are already compressed, so they shrink less. Each row shows the size before and after.</p></article>
+      <article class="card"><span class="num">02</span><h3>Lossless wherever possible.</h3><p>PNG recompression keeps every pixel, and lossless WebP results are decoded and compared with the original before you see them. Lossy options (JPEG, lossy WebP, MP3, AAC, Opus, H.264, VP8) are labelled as lossy.</p></article>
+      <article class="card"><span class="num">03</span><h3>Savings depend on the file.</h3><p>Screenshots, graphics, WAV audio, screen recordings and uncompressed 3D models shrink the most. Photos, MP3s and streamed video are already compressed, so they shrink less. Each row shows the size before and after.</p></article>
     </div>
   </section>
 
@@ -170,6 +195,6 @@ document.getElementById('theme-toggle').addEventListener('click',function(){
   r.dataset.theme=next;try{localStorage.setItem('pp-theme',next)}catch(e){}
 });
 </script>
-<script type="module" src="app.js?v=5"></script>
+<script type="module" src="app.js?v=7"></script>
 </body>
 </html>

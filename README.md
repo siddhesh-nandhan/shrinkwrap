@@ -1,6 +1,6 @@
 # Shrinkwrap
 
-Shrinkwrap makes images, GLB 3D models and audio files smaller without uploading them. Everything runs in the browser, with drag-and-drop batches and a ZIP download. Designed for GitHub Pages. No build step, API key, uploads, analytics, or external assets: every library is bundled in `docs/vendor`.
+Shrinkwrap makes images, GLB 3D models, audio and video files smaller without uploading them. Everything runs in the browser, with drag-and-drop batches and a ZIP download. Designed for GitHub Pages. No build step, API key, uploads, analytics, or external assets: every library is bundled in `docs/vendor`.
 
 ## Run locally
 
@@ -27,6 +27,7 @@ All paths are relative, so repository subpath hosting works. The repository incl
 - **Images:** PNG, JPEG, WebP, BMP and GIF input; lossless recompression or conversion to WebP, PNG and JPEG.
 - **3D models:** `.glb` files get meshopt geometry compression, de-duplication, and texture downscaling / WebP re-encoding. Output uses `EXT_meshopt_compression` and `EXT_texture_webp`, so three.js, Babylon.js and model-viewer read it. Older viewers may not. Models that already use Draco keep Draco for the mesh and get smaller textures.
 - **Audio:** almost any input (MP3, WAV, FLAC, AAC, M4A, OGG, Opus, AIFF, WMA…) to MP3, AAC, Opus or lossless FLAC, with bitrate and mono options, powered by ffmpeg.wasm. The ~30 MB engine loads only the first time audio is used. Opus is limited to complexity 4 because higher levels crash this wasm build on stereo input.
+- **Video:** almost any input (MP4, MOV, MKV, WebM, AVI, WMV, FLV, MPEG, TS, 3GP…) to MP4, MOV, MKV, WebM or animated WebP. Lossy: H.264 or VP8 with four quality levels, optional resolution and frame-rate caps. Lossless: original streams repackaged without re-encoding (falling back to lossless H.264 when the container can't hold them), lossless H.264, or FFV1 in MKV. Uses the same ffmpeg.wasm engine as audio and runs single-threaded, so long clips take a while. H.265, VP9 and Theora are not offered because they hang or crash in this wasm build.
 - Licences: ffmpeg-core is GPL-2.0-or-later (see `docs/vendor/ffmpeg-core/NOTICE.md`); the rest is MIT/Apache-2.0.
 
 - Drag-and-drop batches, individual downloads, and one ZIP download.
